@@ -1,6 +1,6 @@
 
 import React from "react";
-import './../styles/App.css';
+import '../styles/App.css';
 import Tooltip from "./Tooltip";
 
 const App = () => {
@@ -8,14 +8,14 @@ const App = () => {
     <div>
       {/* Do not remove the main div */}
       <Tooltip text="This is a tooltip">
-        <h2 className="tooltip">Hover over me</h2>
+        <h2 className="">Hover over me</h2>
         <hr />
       </Tooltip>
 
       <br />
 
       <Tooltip text="This is another tooltip">
-        <p className="tooltip">Hover over me to see another tooltip</p>
+        <p className="">Hover over me to see another tooltip</p>
         <hr />
 
       </Tooltip>

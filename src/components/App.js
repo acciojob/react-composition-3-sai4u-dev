@@ -1,30 +1,28 @@
-
-import React, { useState, cloneElement  } from "react";
-import './../styles/App.css';
+import React, { useState } from "react";
+import "./../styles/App.css";
 
 const Tooltip = ({ text, children }) => {
   const [visible, setVisible] = useState(false);
 
-  // Ensure the child element gets the tooltip behavior
-  return cloneElement(children, {
-    className: `${children.props.className || ""} tooltip`.trim(),
-    onMouseEnter: () => setVisible(true),
-    onMouseLeave: () => setVisible(false),
-    children: (
-      <>
-        {children.props.children}
-        {visible && <div className="tooltiptext">{text}</div>}
-      </>
-    ),
-  });
+  return (
+    <div
+      className="tooltip-wrapper"
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+    >
+      {React.cloneElement(children, {
+        className: `${children.props.className || ""} tooltip`.trim(),
+      })}
+      {visible && <div>{text}</div>}
+    </div>
+  );
 };
-
 
 function App() {
   return (
     <div style={{ padding: "50px" }}>
       <Tooltip text="This is a tooltip">
-        <h3>Hover over me</h3>
+        <h2>Hover over me</h2>
       </Tooltip>
 
       <br />

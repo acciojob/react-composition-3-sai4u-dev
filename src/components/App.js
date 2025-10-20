@@ -23,13 +23,20 @@ function App() {
   return (
     <div style={{ padding: "50px" }}>
       <Tooltip text="This is a tooltip">
-        <h2>Hover over me</h2>
+       <h2 class="tooltip">
+  Hover over me
+  <div>This is a tooltip</div>
+</h2>
+
       </Tooltip>
 
       <br />
 
       <Tooltip text="Another tooltip example">
-        <p>Hover over me to see another tooltip</p>
+       <p class="tooltip">
+  Hover over me to see another tooltip
+  <div>Another tooltip example</div>
+</p>
       </Tooltip>
     </div>
   );

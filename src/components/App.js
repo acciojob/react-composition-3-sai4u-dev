@@ -1,45 +1,26 @@
-import React, { useState } from "react";
-import "./../styles/App.css";
 
-const Tooltip = ({ text, children }) => {
-  const [visible, setVisible] = useState(false);
+import React from "react";
+import './../styles/App.css';
+import Tooltip from "./Tooltip";
 
-  // Clone child to inject class and events, and manually merge existing props
-  return React.cloneElement(children, {
-    className: `${children.props.className || ""} tooltip`.trim(),
-    onMouseEnter: () => setVisible(true),
-    onMouseLeave: () => setVisible(false),
-    // Render the tooltip <div> directly inside the child element
-    children: (
-      <>
-        {children.props.children}
-        {visible && <div>{text}</div>}
-      </>
-    ),
-  });
-};
-
-function App() {
+const App = () => {
   return (
-    <div style={{ padding: "50px" }}>
+    <div>
+      {/* Do not remove the main div */}
       <Tooltip text="This is a tooltip">
-       <h2 class="tooltip">
-  Hover over me
-  <div>This is a tooltip</div>
-</h2>
-
+        <h2 className="tooltip">Hover over me</h2>
+        <hr />
       </Tooltip>
 
       <br />
 
-      <Tooltip text="Another tooltip example">
-       <p class="tooltip">
-  Hover over me to see another tooltip
-  <div>Another tooltip example</div>
-</p>
+      <Tooltip text="This is another tooltip">
+        <p className="tooltip">Hover over me to see another tooltip</p>
+        <hr />
+
       </Tooltip>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

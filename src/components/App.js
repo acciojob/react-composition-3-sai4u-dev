@@ -4,18 +4,19 @@ import "./../styles/App.css";
 const Tooltip = ({ text, children }) => {
   const [visible, setVisible] = useState(false);
 
-  return (
-    <div
-      className="tooltip-wrapper"
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
-    >
-      {React.cloneElement(children, {
-        className: `${children.props.className || ""} tooltip`.trim(),
-      })}
-      {visible && <div>{text}</div>}
-    </div>
-  );
+  // Clone child to inject class and events, and manually merge existing props
+  return React.cloneElement(children, {
+    className: `${children.props.className || ""} tooltip`.trim(),
+    onMouseEnter: () => setVisible(true),
+    onMouseLeave: () => setVisible(false),
+    // Render the tooltip <div> directly inside the child element
+    children: (
+      <>
+        {children.props.children}
+        {visible && <div>{text}</div>}
+      </>
+    ),
+  });
 };
 
 function App() {

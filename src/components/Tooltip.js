@@ -21,6 +21,8 @@ const Tooltip = ({ text, children }) => {
     </div>
   ) : null;
 
+  console.log(tooltipText, text)
+
   let childWithTooltipClass = null;
 
   if (React.isValidElement(triggerElement)) {

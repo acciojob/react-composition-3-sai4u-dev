@@ -4,11 +4,12 @@ import '../styles/App.css';
 import Tooltip from "./Tooltip";
 
 const App = () => {
+  console.log(document.getElementsByClassName('tooltip'))
   return (
     <div>
       {/* Do not remove the main div */}
       <Tooltip text="This is a tooltip">
-        <h2 className="tooltip">Hover over me</h2>
+        <h2 className="tooltip" >Hover over me</h2>
         <hr />
       </Tooltip>
 

@@ -3,37 +3,46 @@ import React, { useState } from "react";
 const Tooltip = ({ text, children }) => {
   const [visible, setVisible] = useState(false);
 
-  // We expect multiple children, like <h2> and <hr />
+  // Handle multiple children (<h2> and <hr />)
   const trigger = Array.isArray(children) ? children[0] : children;
   const rest = Array.isArray(children) ? children.slice(1) : null;
 
-  // Safely get properties of the trigger element
-  const { type: Tag, props } = trigger;
+  // Return nothing if trigger isn’t a valid element
+  if (!trigger || !trigger.type) return null;
 
-  // Use props.className if provided, otherwise add 'tooltip'
-  const className = props.className?.includes('tooltip')
+  // Get tag and props
+  const Tag = trigger.type;
+  const props = trigger.props || {};
+
+  const handleShow = () => setVisible(true);
+  const handleHide = () => setVisible(false);
+
+  // Merge or append 'tooltip' class
+  const className = props.className?.includes("tooltip")
     ? props.className
-    : `${props.className ? props.className + ' ' : ''}tooltip`;
+    : `${props.className ? props.className + " " : ""}tooltip`;
 
+  // Render element directly with tooltip content inside
   return (
     <>
       <Tag
         {...props}
         className={className}
-        onMouseEnter={() => setVisible(true)}
-        onMouseLeave={() => setVisible(false)}
-        onFocus={() => setVisible(true)}
-        onBlur={() => setVisible(false)}
+        onMouseEnter={handleShow}
+        onMouseLeave={handleHide}
+        onFocus={handleShow}
+        onBlur={handleHide}
         tabIndex={0}
       >
         {props.children}
-        {visible && (
+        {visible ? (
           <div className="tooltiptext" role="tooltip">
             {text}
           </div>
-        )}
+        ) : null}
       </Tag>
 
+      {/* Render any siblings (like <hr />) after */}
       {rest}
     </>
   );

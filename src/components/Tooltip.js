@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const Tooltip = ({ text, children }) => {
   const [visible, setVisible] = useState(false);
 
-  // handle multiple children
   const trigger = Array.isArray(children) ? children[0] : children;
   const rest = Array.isArray(children) ? children.slice(1) : null;
 
@@ -29,7 +28,7 @@ const Tooltip = ({ text, children }) => {
       >
         {props.children}
 
-        {/* outer div always exists, tooltiptext div appears only on hover */}
+        {/* outer div always exists */}
         <div>
           {visible && (
             <div className="tooltiptext" role="tooltip">
@@ -38,7 +37,6 @@ const Tooltip = ({ text, children }) => {
           )}
         </div>
       </Tag>
-
       {rest}
     </>
   );

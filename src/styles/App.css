@@ -1,21 +1,23 @@
-/* styles.css */
 .tooltip {
-  position: relative;
+  position: relative; /* for positioning tooltip text */
   display: inline-block;
-  cursor: default;
 }
 
-.tooltiptext {
+.tooltip .tooltiptext {
+  display: none;        /* hidden by default */
   position: absolute;
-  top: 120%;        /* adjust as needed for your layout */
+  background-color: black;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  top: 100%;            /* show below the element */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 4px;
   white-space: nowrap;
-  z-index: 1000;
-  font-size: 12px;
-  /* visibility controlled via inline style for reliability in tests */
+  z-index: 10;
+}
+
+.tooltip:hover .tooltiptext,
+.tooltip:focus .tooltiptext {
+  display: block;       /* show on hover/focus */
 }

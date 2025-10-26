@@ -1,5 +1,3 @@
-// Tooltip.js - Final refined version
-
 import React, { useState } from 'react';
 
 const Tooltip = ({ text, children }) => {
@@ -8,13 +6,15 @@ const Tooltip = ({ text, children }) => {
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
+  // 1. Convert children to an array to safely handle multiple children (like h2 and hr).
   const childrenArray = React.Children.toArray(children);
   const triggerElement = childrenArray[0];
 
-  // 1. Conditionally render the tooltip text to satisfy the 'should not exist' assertion.
+  // 2. Conditionally render the tooltip text. This removes it from the DOM
+  //    when hidden, satisfying the 'should not exist' assertion of the first passing test.
   const tooltipText = visible ? (
     <div
-      className="tooltiptext" // This is the 'div' the selector is looking for
+      className="tooltiptext" // This is the 'div' the selectors (h2.tooltip > div) are looking for
       role="tooltip"
     >
       {text}
@@ -25,33 +25,39 @@ const Tooltip = ({ text, children }) => {
 
   if (React.isValidElement(triggerElement)) {
     
-    // Get the existing children of the trigger element, flatten them into an array, 
-    // and then add the new tooltipText element to the end.
+    // Prepare the new className: add ' tooltip' only if it's not already present.
+    const originalClassName = triggerElement.props.className || '';
+    const newClassName = originalClassName.includes('tooltip') ? originalClassName : 
+                         originalClassName ? `${originalClassName} tooltip` : 'tooltip';
+    
+    // Get existing children, flatten them, and append the tooltipText (the <div>).
     const originalTriggerChildren = React.Children.toArray(triggerElement.props.children);
     const newChildren = [...originalTriggerChildren, tooltipText];
 
-    // 2. Clone the trigger element to move the 'tooltip' class and inject the new children array.
+    // 3. Clone the trigger element to move the 'tooltip' class, event handlers,
+    //    and the injected tooltip text (the element the failing tests are looking for).
     childWithTooltipClass = React.cloneElement(triggerElement, {
-      // Add 'tooltip' class while preserving existing classes
-      className: `${triggerElement.props.className || ''} tooltip`,
+      className: newClassName,
       onMouseEnter: show,
       onMouseLeave: hide,
       onFocus: show,
       onBlur: hide,
       tabIndex: 0,
       
-      // Inject the tooltipText (the <div>) as a direct child
+      // Injecting the tooltipText as a direct child of the trigger element 
+      // satisfies the 'ELEMENT.tooltip > div' selectors.
       children: newChildren,
     });
   }
 
-  // The wrapper is now only a container.
+  // 4. Return the cloned trigger element and any subsequent children using a Fragment.
+  //    This avoids an extra wrapper <div>, simplifying the DOM structure.
   return (
-    <div className="tooltip-container">
+    <>
       {childWithTooltipClass}
-      {/* Render any subsequent children if the component received more than one */}
+      {/* Render any subsequent children (like the <hr />) after the trigger element */}
       {childrenArray.slice(1)} 
-    </div>
+    </>
   );
 };
 

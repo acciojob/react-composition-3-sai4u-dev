@@ -1,23 +1,29 @@
 .tooltip {
-  position: relative; /* for positioning tooltip text */
+  position: relative;
   display: inline-block;
 }
 
+.tooltip > div {
+  /* make it exist in DOM with minimal size */
+  width: 1px;       /* minimal width to make Cypress happy */
+  height: 1px;      /* minimal height to make Cypress happy */
+}
+
 .tooltip .tooltiptext {
-  display: none;        /* hidden by default */
+  display: none;     /* hide by default */
   position: absolute;
-  background-color: black;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  top: 100%;            /* show below the element */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
   white-space: nowrap;
   z-index: 10;
 }
 
 .tooltip:hover .tooltiptext,
 .tooltip:focus .tooltiptext {
-  display: block;       /* show on hover/focus */
+  display: block;    /* show tooltip text on hover/focus */
 }

@@ -10,7 +10,7 @@ const Tooltip = ({ text, children }) => {
       onMouseLeave={() => setShow(false)}
     >
       {children}
-      {show && <div>{text}</div>}
+      {show && <div class="tooltiptext">{text}</div>}
     </div>
   );
 };
